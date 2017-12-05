@@ -14,6 +14,7 @@ fn hex_to_bytes(s: &str) -> Vec<u8> {
 
 }
 
+#[cfg(feature = "encode")]
 macro_rules! assert_encode {
     {$( $alg:ident, $data:expr, $expect:expr; )*} => {
         $(
@@ -26,6 +27,7 @@ macro_rules! assert_encode {
     }
 }
 
+#[cfg(feature = "encode")]
 #[test]
 fn multihash_encode() {
     assert_encode! {
@@ -90,6 +92,7 @@ macro_rules! assert_roundtrip {
 }
 
 #[test]
+#[cfg(feature = "encode")]
 fn assert_roundtrip() {
     assert_roundtrip!(
         SHA1, SHA2256, SHA2512, SHA3224, SHA3256, SHA3384, SHA3512,

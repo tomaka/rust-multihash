@@ -16,5 +16,9 @@ readme = "README.md"
 documentation = "https://docs.rs/multihash/"
 
 [dependencies]
-tiny-keccak = "1.2"
-ring = "0.12"
+tiny-keccak = { version = "1.2", optional = true }
+ring = { version = "0.12", optional = true }
+
+[features]
+default = []
+encode = ["tiny-keccak", "ring"]

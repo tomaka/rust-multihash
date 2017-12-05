@@ -4,12 +4,16 @@
 /// ! in Rust.
 /// Representation of a Multiaddr.
 
+#[cfg(feature = "encode")]
 extern crate ring;
+#[cfg(feature = "encode")]
 extern crate tiny_keccak;
 
 use std::fmt::Write;
 
+#[cfg(feature = "encode")]
 use tiny_keccak::Keccak;
+#[cfg(feature = "encode")]
 use ring::digest;
 
 mod hashes;
@@ -19,6 +23,7 @@ mod errors;
 pub use errors::*;
 
 // Helper macro for encoding input into output using either ring or tiny_keccak
+#[cfg(feature = "encode")]
 macro_rules! encode {
     (ring, $algorithm:ident, $input:expr, $output:expr) => ({
         let result = digest::digest(&digest::$algorithm, $input);
@@ -33,6 +38,7 @@ macro_rules! encode {
 }
 
 // And another one to keep the matching DRY
+#[cfg(feature = "encode")]
 macro_rules! match_encoder {
     ($hash:ident for ($input:expr, $output:expr) {
         $( $hashtype:ident => $lib:ident :: $method:ident, )*
@@ -70,6 +76,7 @@ macro_rules! match_encoder {
 /// );
 /// ```
 ///
+#[cfg(feature = "encode")]
 pub fn encode(hash: Hash, input: &[u8]) -> Result<Vec<u8>, Error> {
     let size = hash.size();
     let mut output = Vec::new();
